@@ -1,0 +1,29 @@
+
+<h1>List of Students</h1>
+<ul>{studentList}</ul>
+<script>
+   
+var deleteButtons = document.querySelectorAll("[id^='student']");
+
+// Dla każdego przycisku, dodaj obsługę zdarzeń dla kliknięcia
+deleteButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        var studentId = this.id.split("t")[2]; // Pobierz ID przycisku, które jest również identyfikatorem studenta
+        var url = "/student/" + studentId;
+
+        // Wyślij żądanie DELETE na odpowiedni adres URL
+        fetch(url, {
+            method: 'DELETE'
+        }).then(function(response) {
+            // Jeśli żądanie zakończy się sukcesem, przekieruj na stronę główną (lub odpowiednią stronę)
+            if (response.ok) {
+                window.location.href = "/";
+            } else {
+                console.error('Wystąpił problem podczas usuwania studenta:', response.statusText);
+            }
+        }).catch(function(error) {
+            console.error('Wystąpił problem z żądaniem DELETE:', error);
+        });
+    });
+});
+</script>
